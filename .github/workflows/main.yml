@@ -17,7 +17,7 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Run shellcheck
-      run: shellcheck -s bash -f tty ./*.sh
+      run: shellcheck -s bash -f tty *
 
   shfmt:
     runs-on: ubuntu-latest
@@ -25,4 +25,4 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Run shfmt
-      run: shfmt -i 2 -ci -sr -kp -d ./*.sh
+      run: shfmt -i 2 -ci -sr -kp -d *
