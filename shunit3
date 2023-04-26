@@ -32,14 +32,14 @@ SHUNIT_ERROR=2
 # Determine if `builtin` command exists.
 __SHUNIT_BUILTIN='builtin'
 # shellcheck disable=2039
-if ! ("${__SHUNIT_BUILTIN}" echo 123 >/dev/null 2>&1); then
+if ! ("${__SHUNIT_BUILTIN}" echo 123 > /dev/null 2>&1); then
   __SHUNIT_BUILTIN=''
 fi
 
 # Determine some reasonable command defaults.
 __SHUNIT_CMD_ECHO_ESC='echo -e'
 # shellcheck disable=SC2039,SC3037
-if ${__SHUNIT_BUILTIN} [ "`echo -e test`" = '-e test' ]; then
+if ${__SHUNIT_BUILTIN} [ "$(echo -e test)" = '-e test' ]; then
   __SHUNIT_CMD_ECHO_ESC='echo'
 fi
 
@@ -130,7 +130,7 @@ _SHUNIT_LINENO_='eval __shunit_lineno=""; if ${__SHUNIT_BUILTIN} [ "${1:-}" = "-
 
 # Specific shell checks.
 if ${__SHUNIT_BUILTIN} [ -n "${ZSH_VERSION:-}" ]; then
-  setopt |grep "^shwordsplit$" >/dev/null
+  setopt | grep "^shwordsplit$" > /dev/null
   if ${__SHUNIT_BUILTIN} [ $? -ne ${SHUNIT_TRUE} ]; then
     _shunit_fatal 'zsh shwordsplit option is required for proper operation'
   fi
@@ -141,9 +141,9 @@ if ${__SHUNIT_BUILTIN} [ -n "${ZSH_VERSION:-}" ]; then
 fi
 
 # Set the constants readonly.
-__shunit_constants=`set |grep '^__SHUNIT_' |cut -d= -f1`
-echo "${__shunit_constants}" |grep '^Binary file' >/dev/null && \
-    __shunit_constants=`set |grep -a '^__SHUNIT_' |cut -d= -f1`
+__shunit_constants=$(set | grep '^__SHUNIT_' | cut -d= -f1)
+echo "${__shunit_constants}" | grep '^Binary file' > /dev/null &&
+  __shunit_constants=$( set | grep -a '^__SHUNIT_' | cut -d= -f1)
 for __shunit_const in ${__shunit_constants}; do
   if ${__SHUNIT_BUILTIN} [ -z "${ZSH_VERSION:-}" ]; then
     readonly "${__shunit_const}"
@@ -154,6 +154,7 @@ for __shunit_const in ${__shunit_constants}; do
         # Declare readonly constants globally.
         # shellcheck disable=SC2039,SC3045
         readonly -g "${__shunit_const}"
+        ;;
     esac
   fi
 done
@@ -275,7 +276,7 @@ assertContains() {
   shunit_container_=$1
   shunit_content_=$2
   shunit_return=${SHUNIT_TRUE}
-  if echo "${shunit_container_}" |grep -F -- "${shunit_content_}" >/dev/null; then
+  if echo "${shunit_container_}" | grep -F -- "${shunit_content_}" > /dev/null; then
     _shunit_assertPass
   else
     failNotFound "${shunit_message_}" "${shunit_content_}"
@@ -355,7 +356,7 @@ assertNull() {
     shunit_message_="${shunit_message_}$1"
     shift
   fi
-  
+
   ${__SHUNIT_BUILTIN} test -z "${1:-}"
   assertTrue "${shunit_message_}" $?
   shunit_return=$?
@@ -515,15 +516,14 @@ assertTrue() {
   if ${__SHUNIT_BUILTIN} [ -z "${shunit_condition_}" ]; then
     # Null condition.
     shunit_return=${SHUNIT_FALSE}
-  elif (expr \( "${shunit_condition_}" + '0' \) '=' "${shunit_condition_}" >/dev/null 2>&1)
-  then
+  elif (expr \( "${shunit_condition_}" + '0' \) '=' "${shunit_condition_}" > /dev/null 2>&1); then
     # Possible return value. Treating 0 as true, and non-zero as false.
     if ${__SHUNIT_BUILTIN} [ "${shunit_condition_}" -ne 0 ]; then
       shunit_return=${SHUNIT_FALSE}
     fi
   else
     # Hopefully... a condition.
-    if ! eval "${shunit_condition_}" >/dev/null 2>&1; then
+    if ! eval "${shunit_condition_}" > /dev/null 2>&1; then
       shunit_return=${SHUNIT_FALSE}
     fi
   fi
@@ -586,7 +586,7 @@ assertFalse() {
   if ${__SHUNIT_BUILTIN} [ -z "${shunit_condition_}" ]; then
     # Null condition.
     shunit_return=${SHUNIT_TRUE}
-  elif (expr \( "${shunit_condition_}" + '0' \) '=' "${shunit_condition_}" >/dev/null 2>&1); then
+  elif (expr \( "${shunit_condition_}" + '0' \) '=' "${shunit_condition_}" > /dev/null 2>&1); then
     # Possible return value. Treating 0 as true, and non-zero as false.
     if ${__SHUNIT_BUILTIN} [ "${shunit_condition_}" -eq 0 ]; then
       shunit_return=${SHUNIT_FALSE}
@@ -594,7 +594,7 @@ assertFalse() {
   else
     # Hopefully... a condition.
     # shellcheck disable=SC2086
-    if eval ${shunit_condition_} >/dev/null 2>&1; then
+    if eval ${shunit_condition_} > /dev/null 2>&1; then
       shunit_return=${SHUNIT_FALSE}
     fi
   fi
@@ -883,7 +883,7 @@ suite_addTest() {
   shunit_func_=${1:-}
 
   __shunit_suite="${__shunit_suite:+${__shunit_suite} }${shunit_func_}"
-  __shunit_testsTotal=`expr ${__shunit_testsTotal} + 1`
+  __shunit_testsTotal=$(expr ${__shunit_testsTotal} + 1)
 
   unset shunit_func_
 }
@@ -950,21 +950,21 @@ suite_addTest() {
 #   string: the temporary directory that was created
 _shunit_mktempDir() {
   # Try the standard `mktemp` function.
-  if ( exec mktemp -dqt shunit.XXXXXX 2>/dev/null ); then
+  if ( exec mktemp -dqt shunit.XXXXXX 2> /dev/null); then
     return
   fi
 
   # The standard `mktemp` didn't work. Use our own.
   # shellcheck disable=SC2039,SC3028
   if ${__SHUNIT_BUILTIN} [ -r '/dev/urandom' -a -x '/usr/bin/od' ]; then
-    _shunit_random_=`/usr/bin/od -vAn -N4 -tx4 </dev/urandom |command sed 's/^[^0-9a-f]*//'`
+    _shunit_random_=$(/usr/bin/od -vAn -N4 -tx4 < /dev/urandom | command sed 's/^[^0-9a-f]*//')
   elif ${__SHUNIT_BUILTIN} [ -n "${RANDOM:-}" ]; then
     # $RANDOM works
     _shunit_random_=${RANDOM}${RANDOM}${RANDOM}$$
   else
     # `$RANDOM` doesn't work.
-    _shunit_date_=`date '+%Y%m%d%H%M%S'`
-    _shunit_random_=`expr "${_shunit_date_}" / $$`
+    _shunit_date_=$(date '+%Y%m%d%H%M%S')
+    _shunit_random_=$(expr "${_shunit_date_}" / $$)
   fi
 
   _shunit_tmpDir_="${TMPDIR:-/tmp}/shunit.${_shunit_random_}"
@@ -981,10 +981,9 @@ _shunit_mktempDir() {
 # Args:
 #   None
 _shunit_mktempFunc() {
-  for _shunit_func_ in oneTimeSetUp oneTimeTearDown setUp tearDown suite noexec
-  do
+  for _shunit_func_ in oneTimeSetUp oneTimeTearDown setUp tearDown suite noexec; do
     _shunit_file_="${__shunit_tmpDir}/${_shunit_func_}"
-    command cat <<EOF >"${_shunit_file_}"
+    command cat << EOF > "${_shunit_file_}"
 #! /bin/sh
 exit ${SHUNIT_TRUE}
 EOF
@@ -1024,8 +1023,8 @@ _shunit_cleanup() {
     __shunit_clean=${SHUNIT_TRUE}
 
     tearDown || _shunit_warn 'tearDown() returned non-zero return code.'
-    oneTimeTearDown || \
-        _shunit_warn 'oneTimeTearDown() returned non-zero return code.'
+    oneTimeTearDown ||
+      _shunit_warn   'oneTimeTearDown() returned non-zero return code.'
 
     command rm -fr "${__shunit_tmpDir}"
   fi
@@ -1052,11 +1051,11 @@ _shunit_configureColor() {
   case $1 in
     'always') _shunit_color_=${SHUNIT_TRUE} ;;
     'auto')
-      if ${__SHUNIT_BUILTIN} [ "`_shunit_colors`" -ge 8 ]; then
+      if ${__SHUNIT_BUILTIN} [ "$(_shunit_colors)" -ge 8 ]; then
         _shunit_color_=${SHUNIT_TRUE}
       fi
       ;;
-    'never'|'none') ;;  # Support 'none' to support legacy usage.
+    'never' | 'none') ;; # Support 'none' to support legacy usage.
     *) _shunit_fatal "unrecognized color option '$1'" ;;
   esac
 
@@ -1083,7 +1082,7 @@ _shunit_configureColor() {
 
 # colors returns the number of supported colors for the TERM.
 _shunit_colors() {
-  if _shunit_tput_=`${SHUNIT_CMD_TPUT} colors 2>/dev/null`; then
+  if _shunit_tput_=$(${SHUNIT_CMD_TPUT} colors 2> /dev/null); then
     echo "${_shunit_tput_}"
   else
     echo 16
@@ -1122,9 +1121,9 @@ _shunit_execSuite() {
 
     # Update stats.
     if ${__SHUNIT_BUILTIN} [ ${__shunit_testSuccess} -eq ${SHUNIT_TRUE} ]; then
-      __shunit_testsPassed=`expr ${__shunit_testsPassed} + 1`
+      __shunit_testsPassed=$(expr ${__shunit_testsPassed} + 1)
     else
-      __shunit_testsFailed=`expr ${__shunit_testsFailed} + 1`
+      __shunit_testsFailed=$(expr ${__shunit_testsFailed} + 1)
     fi
   done
 
@@ -1196,8 +1195,8 @@ _shunit_shouldSkip() {
 # Args:
 #   None
 _shunit_assertPass() {
-  __shunit_assertsPassed=`expr ${__shunit_assertsPassed} + 1`
-  __shunit_assertsTotal=`expr ${__shunit_assertsTotal} + 1`
+  __shunit_assertsPassed=$(expr ${__shunit_assertsPassed} + 1)
+  __shunit_assertsTotal=$(expr ${__shunit_assertsTotal} + 1)
 }
 
 # Records a test failure.
@@ -1218,8 +1217,8 @@ _shunit_assertFail() {
 # Args:
 #   none
 _shunit_incFailedCount() {
-  __shunit_assertsFailed=`expr "${__shunit_assertsFailed}" + 1`
-  __shunit_assertsTotal=`expr "${__shunit_assertsTotal}" + 1`
+  __shunit_assertsFailed=$(expr "${__shunit_assertsFailed}" + 1)
+  __shunit_assertsTotal=$(expr "${__shunit_assertsTotal}" + 1)
 }
 
 # Records a skipped test.
@@ -1227,8 +1226,8 @@ _shunit_incFailedCount() {
 # Args:
 #   None
 _shunit_assertSkip() {
-  __shunit_assertsSkipped=`expr "${__shunit_assertsSkipped}" + 1`
-  __shunit_assertsTotal=`expr "${__shunit_assertsTotal}" + 1`
+  __shunit_assertsSkipped=$(expr "${__shunit_assertsSkipped}" + 1)
+  __shunit_assertsTotal=$(expr "${__shunit_assertsTotal}" + 1)
 }
 
 # Dump the current test metrics.
@@ -1253,7 +1252,7 @@ skipped: ${__shunit_assertsSkipped} \
 _shunit_prepForSourcing() {
   _shunit_script_=$1
   case "${_shunit_script_}" in
-    /*|./*) echo "${_shunit_script_}" ;;
+    /* | ./*) echo "${_shunit_script_}" ;;
     *) echo "./${_shunit_script_}" ;;
   esac
   unset _shunit_script_
@@ -1272,9 +1271,9 @@ _shunit_extractTestFunctions() {
   # function name, and output everything on a single line.
   _shunit_regex_='^\s*((function test[A-Za-z0-9_-]*)|(test[A-Za-z0-9_-]* *\(\)))'
   # shellcheck disable=SC2196
-  grep -E "${_shunit_regex_}" "${_shunit_script_}" \
-  |command sed 's/^[^A-Za-z0-9_-]*//;s/^function //;s/\([A-Za-z0-9_-]*\).*/\1/g' \
-  |xargs
+  grep -E "${_shunit_regex_}" "${_shunit_script_}" |
+    command sed 's/^[^A-Za-z0-9_-]*//;s/^function //;s/\([A-Za-z0-9_-]*\).*/\1/g' |
+    xargs
 
   unset _shunit_regex_ _shunit_script_
 }
@@ -1296,7 +1295,7 @@ else
 fi
 
 # Create a temporary storage location.
-__shunit_tmpDir=`_shunit_mktempDir`
+__shunit_tmpDir=$(_shunit_mktempDir)
 
 # Provide a public temporary directory for unit test scripts.
 # TODO(kward): document this.
@@ -1317,13 +1316,13 @@ PATH="${__shunit_tmpDir}:${PATH}"
 # Make sure phantom functions are executable. This will bite if `/tmp` (or the
 # current `$TMPDIR`) points to a path on a partition that was mounted with the
 # 'noexec' option. The noexec command was created with `_shunit_mktempFunc()`.
-noexec 2>/dev/null || _shunit_fatal \
-    'Please declare TMPDIR with path on partition with exec permission.'
+noexec 2> /dev/null || _shunit_fatal \
+  'Please declare TMPDIR with path on partition with exec permission.'
 
 # We must manually source the tests in standalone mode.
 if ${__SHUNIT_BUILTIN} [ "${__shunit_mode}" = "${__SHUNIT_MODE_STANDALONE}" ]; then
   # shellcheck disable=SC1090
-  ${__SHUNIT_BUILTIN} . "`_shunit_prepForSourcing \"${__shunit_script}\"`"
+  ${__SHUNIT_BUILTIN} . "$(_shunit_prepForSourcing \"${__shunit_script}\")"
 fi
 
 # Configure default output coloring behavior.
@@ -1341,7 +1340,7 @@ if ${__SHUNIT_BUILTIN} [ "$#" -ge 2 ]; then
   # Remaining arguments ($2 .. $#) are assumed to be test function names.
   # Interate through all remaining args in "$@" in a POSIX (likely portable) way.
   # Helpful tip: https://unix.stackexchange.com/questions/314032/how-to-use-arguments-like-1-2-in-a-for-loop
-  for _shunit_arg_ do
+  for _shunit_arg_; do
     suite_addTest "${_shunit_arg_}"
   done
   unset _shunit_arg_
@@ -1353,7 +1352,7 @@ fi
 
 # If no tests or suite specified, dynamically build a list of functions.
 if ${__SHUNIT_BUILTIN} [ -z "${__shunit_suite}" ]; then
-  shunit_funcs_=`_shunit_extractTestFunctions "${__shunit_script}"`
+  shunit_funcs_=$(_shunit_extractTestFunctions "${__shunit_script}")
   for shunit_func_ in ${shunit_funcs_}; do
     suite_addTest "${shunit_func_}"
   done

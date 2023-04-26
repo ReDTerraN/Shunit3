@@ -42,7 +42,7 @@ testSkipping() {
 
 testStartSkippingWithMessage() {
   unittestF="${SHUNIT_TMPDIR}/unittest"
-  sed 's/^#//' >"${unittestF}" <<\EOF
+  sed 's/^#//' > "${unittestF}" << \EOF
 ## Start skipping with a message.
 #testSkipping() {
 #  startSkipping 'SKIP-a-Dee-Doo-Dah'
@@ -51,8 +51,8 @@ testStartSkippingWithMessage() {
 #. ${TH_SHUNIT}
 EOF
   # Ignoring errors with `|| :` as we only care about `FAILED` in the output.
-  ( exec "${SHELL:-sh}" "${unittestF}" >"${stdoutF}" 2>"${stderrF}" ) || :
-  if ! grep '\[skipping\] SKIP-a-Dee-Doo-Dah' "${stderrF}" >/dev/null; then
+  ( exec "${SHELL:-sh}" "${unittestF}" > "${stdoutF}" 2> "${stderrF}") || :
+  if ! grep '\[skipping\] SKIP-a-Dee-Doo-Dah' "${stderrF}" > /dev/null; then
     fail 'skipping message was not generated'
   fi
   return 0
@@ -60,7 +60,7 @@ EOF
 
 testStartSkippingWithoutMessage() {
   unittestF="${SHUNIT_TMPDIR}/unittest"
-  sed 's/^#//' >"${unittestF}" <<\EOF
+  sed 's/^#//' > "${unittestF}" << \EOF
 ## Start skipping with a message.
 #testSkipping() {
 #  startSkipping
@@ -69,8 +69,8 @@ testStartSkippingWithoutMessage() {
 #. ${TH_SHUNIT}
 EOF
   # Ignoring errors with `|| :` as we only care about `FAILED` in the output.
-  ( exec "${SHELL:-sh}" "${unittestF}" >"${stdoutF}" 2>"${stderrF}" ) || :
-  if grep '\[skipping\]' "${stderrF}" >/dev/null; then
+  ( exec "${SHELL:-sh}" "${unittestF}" > "${stdoutF}" 2> "${stderrF}") || :
+  if grep '\[skipping\]' "${stderrF}" > /dev/null; then
     fail 'skipping message was unexpectedly generated'
   fi
   return 0

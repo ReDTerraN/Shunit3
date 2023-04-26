@@ -32,5 +32,5 @@ main() {
 
 # Run main() if are running as a standalone script.
 if [ "${ARGV0}" = 'shunit3_standalone_test.sh' ]; then
-	main "$@"
+  main "$@"
 fi

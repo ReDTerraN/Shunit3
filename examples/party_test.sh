@@ -7,9 +7,9 @@
 # function, and test for the expected result.
 
 testPartyLikeItIs1999() {
-  year=`date '+%Y'`
+  year=$(date '+%Y')
   assertEquals "It's not 1999 :-(" \
-      '1999' "${year}"
+    '1999'   "${year}"
 }
 
 # Load and run shunit3.

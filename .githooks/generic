@@ -7,7 +7,7 @@ run() {
   hook=$1
   file=$2
 
-  n=$(echo "${file}" |sed "s/^.*${hook}\.//")
+  n=$(echo "${file}" | sed "s/^.*${hook}\.//")
   echo "running ${n} ${hook}"
   ${file}
 }

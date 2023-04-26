@@ -41,7 +41,6 @@ root_uid_from_passed_filename() {
   unset filename
 }
 
-
 # Read the root UID from the passwd filename derived by call to the
 # passwd_filename() function.
 root_uid_from_derived_filename() {
@@ -56,10 +55,8 @@ passwd_filename() {
   echo "${PASSWD}"
 }
 
-
 # Extract the root UID.
 root_uid() { awk -F: 'u==$1{print $3}' u=root "$1"; }
-
 
 main() {
   echo "root_uid_from_passed_filename:"
@@ -71,10 +68,9 @@ main() {
   root_uid_from_derived_filename
 }
 
-
 # Execute main() if this is run in standalone mode (i.e. not in a unit test).
 ARGV0="$(basename "$0")"
-argv0="$(echo "${ARGV0}" |sed 's/_test$//;s/_test\.sh$//')"
+argv0="$(echo "${ARGV0}" | sed 's/_test$//;s/_test\.sh$//')"
 if [ "${ARGV0}" = "${argv0}" ]; then
   main "$@"
 fi

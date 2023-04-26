@@ -7,7 +7,7 @@ generateOutput() {
 }
 
 testGenerateOutput() {
-  ( generateOutput >"${stdoutF}" 2>"${stderrF}" )
+  ( generateOutput > "${stdoutF}" 2> "${stderrF}")
   rtrn=$?
 
   # This test will fail because a non-zero return code was provided.
@@ -17,11 +17,11 @@ testGenerateOutput() {
   [ ${rtrn} -eq 0 ] || showOutput
 
   # This test will pass because the grepped output matches.
-  grep 'STDOUT' "${stdoutF}" >/dev/null
+  grep 'STDOUT' "${stdoutF}" > /dev/null
   assertTrue 'STDOUT message missing' $?
 
   # This test will fail because the grepped output doesn't match.
-  grep 'ST[andar]DERR[or]' "${stderrF}" >/dev/null
+  grep 'ST[andar]DERR[or]' "${stderrF}" > /dev/null
   assertTrue 'STDERR message missing' $?
 
   return 0

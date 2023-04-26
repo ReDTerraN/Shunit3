@@ -23,13 +23,13 @@ stderrF="${TMPDIR:-/tmp}/STDERR"
 testAssertEquals() {
   isLinenoWorking || startSkipping
 
-  ( ${_ASSERT_EQUALS_} 'x' 'y' >"${stdoutF}" 2>"${stderrF}" )
+  ( ${_ASSERT_EQUALS_} 'x' 'y' > "${stdoutF}" 2> "${stderrF}")
   if ! wasAssertGenerated; then
     fail '_ASSERT_EQUALS_ failed to produce an ASSERT message'
     showTestOutput
   fi
 
-  ( ${_ASSERT_EQUALS_} '"some msg"' 'x' 'y' >"${stdoutF}" 2>"${stderrF}" )
+  ( ${_ASSERT_EQUALS_} '"some msg"' 'x' 'y' > "${stdoutF}" 2> "${stderrF}")
   if ! wasAssertGenerated; then
     fail '_ASSERT_EQUALS_ (with a message) failed to produce an ASSERT message'
     showTestOutput
@@ -39,13 +39,13 @@ testAssertEquals() {
 testAssertNotEquals() {
   isLinenoWorking || startSkipping
 
-  ( ${_ASSERT_NOT_EQUALS_} 'x' 'x' >"${stdoutF}" 2>"${stderrF}" )
+  ( ${_ASSERT_NOT_EQUALS_} 'x' 'x' > "${stdoutF}" 2> "${stderrF}")
   if ! wasAssertGenerated; then
     fail '_ASSERT_NOT_EQUALS_ failed to produce an ASSERT message'
     showTestOutput
   fi
 
-  ( ${_ASSERT_NOT_EQUALS_} '"some msg"' 'x' 'x' >"${stdoutF}" 2>"${stderrF}" )
+  ( ${_ASSERT_NOT_EQUALS_} '"some msg"' 'x' 'x' > "${stdoutF}" 2> "${stderrF}")
   if ! wasAssertGenerated; then
     fail '_ASSERT_NOT_EQUALS_ (with a message) failed to produce an ASSERT message'
     showTestOutput
@@ -55,13 +55,13 @@ testAssertNotEquals() {
 testSame() {
   isLinenoWorking || startSkipping
 
-  ( ${_ASSERT_SAME_} 'x' 'y' >"${stdoutF}" 2>"${stderrF}" )
+  ( ${_ASSERT_SAME_} 'x' 'y' > "${stdoutF}" 2> "${stderrF}")
   if ! wasAssertGenerated; then
     fail '_ASSERT_SAME_ failed to produce an ASSERT message'
     showTestOutput
   fi
 
-  ( ${_ASSERT_SAME_} '"some msg"' 'x' 'y' >"${stdoutF}" 2>"${stderrF}" )
+  ( ${_ASSERT_SAME_} '"some msg"' 'x' 'y' > "${stdoutF}" 2> "${stderrF}")
   if ! wasAssertGenerated; then
     fail '_ASSERT_SAME_ (with a message) failed to produce an ASSERT message'
     showTestOutput
@@ -71,13 +71,13 @@ testSame() {
 testNotSame() {
   isLinenoWorking || startSkipping
 
-  ( ${_ASSERT_NOT_SAME_} 'x' 'x' >"${stdoutF}" 2>"${stderrF}" )
+  ( ${_ASSERT_NOT_SAME_} 'x' 'x' > "${stdoutF}" 2> "${stderrF}")
   if ! wasAssertGenerated; then
     fail '_ASSERT_NOT_SAME_ failed to produce an ASSERT message'
     showTestOutput
   fi
 
-  ( ${_ASSERT_NOT_SAME_} '"some msg"' 'x' 'x' >"${stdoutF}" 2>"${stderrF}" )
+  ( ${_ASSERT_NOT_SAME_} '"some msg"' 'x' 'x' > "${stdoutF}" 2> "${stderrF}")
   if ! wasAssertGenerated; then
     fail '_ASSERT_NOT_SAME_ (with a message) failed to produce an ASSERT message'
     showTestOutput
@@ -87,13 +87,13 @@ testNotSame() {
 testNull() {
   isLinenoWorking || startSkipping
 
-  ( ${_ASSERT_NULL_} 'x' >"${stdoutF}" 2>"${stderrF}" )
+  ( ${_ASSERT_NULL_} 'x' > "${stdoutF}" 2> "${stderrF}")
   if ! wasAssertGenerated; then
     fail '_ASSERT_NULL_ failed to produce an ASSERT message'
     showTestOutput
   fi
 
-  ( ${_ASSERT_NULL_} '"some msg"' 'x' >"${stdoutF}" 2>"${stderrF}" )
+  ( ${_ASSERT_NULL_} '"some msg"' 'x' > "${stdoutF}" 2> "${stderrF}")
   if ! wasAssertGenerated; then
     fail '_ASSERT_NULL_ (with a message) failed to produce an ASSERT message'
     showTestOutput
@@ -103,13 +103,13 @@ testNull() {
 testNotNull() {
   isLinenoWorking || startSkipping
 
-  ( ${_ASSERT_NOT_NULL_} '' >"${stdoutF}" 2>"${stderrF}" )
+  ( ${_ASSERT_NOT_NULL_} '' > "${stdoutF}" 2> "${stderrF}")
   if ! wasAssertGenerated; then
     fail '_ASSERT_NOT_NULL_ failed to produce an ASSERT message'
     showTestOutput
   fi
 
-  ( ${_ASSERT_NOT_NULL_} '"some msg"' '""' >"${stdoutF}" 2>"${stderrF}" )
+  ( ${_ASSERT_NOT_NULL_} '"some msg"' '""' > "${stdoutF}" 2> "${stderrF}")
   if ! wasAssertGenerated; then
     fail '_ASSERT_NOT_NULL_ (with a message) failed to produce an ASSERT message'
     showTestOutput
@@ -119,13 +119,13 @@ testNotNull() {
 testAssertTrue() {
   isLinenoWorking || startSkipping
 
-  ( ${_ASSERT_TRUE_} "${SHUNIT_FALSE}" >"${stdoutF}" 2>"${stderrF}" )
+  ( ${_ASSERT_TRUE_} "${SHUNIT_FALSE}" > "${stdoutF}" 2> "${stderrF}")
   if ! wasAssertGenerated; then
     fail '_ASSERT_TRUE_ failed to produce an ASSERT message'
     showTestOutput
   fi
 
-  ( ${_ASSERT_TRUE_} '"some msg"' "${SHUNIT_FALSE}" >"${stdoutF}" 2>"${stderrF}" )
+  ( ${_ASSERT_TRUE_} '"some msg"' "${SHUNIT_FALSE}" > "${stdoutF}" 2> "${stderrF}")
   if ! wasAssertGenerated; then
     fail '_ASSERT_TRUE_ (with a message) failed to produce an ASSERT message'
     showTestOutput
@@ -135,13 +135,13 @@ testAssertTrue() {
 testAssertFalse() {
   isLinenoWorking || startSkipping
 
-  ( ${_ASSERT_FALSE_} "${SHUNIT_TRUE}" >"${stdoutF}" 2>"${stderrF}" )
+  ( ${_ASSERT_FALSE_} "${SHUNIT_TRUE}" > "${stdoutF}" 2> "${stderrF}")
   if ! wasAssertGenerated; then
     fail '_ASSERT_FALSE_ failed to produce an ASSERT message'
     showTestOutput
   fi
 
-  ( ${_ASSERT_FALSE_} '"some msg"' "${SHUNIT_TRUE}" >"${stdoutF}" 2>"${stderrF}" )
+  ( ${_ASSERT_FALSE_} '"some msg"' "${SHUNIT_TRUE}" > "${stdoutF}" 2> "${stderrF}")
   if ! wasAssertGenerated; then
     fail '_ASSERT_FALSE_ (with a message) failed to produce an ASSERT message'
     showTestOutput
@@ -151,13 +151,13 @@ testAssertFalse() {
 testFail() {
   isLinenoWorking || startSkipping
 
-  ( ${_FAIL_} >"${stdoutF}" 2>"${stderrF}" )
+  ( ${_FAIL_} > "${stdoutF}" 2> "${stderrF}")
   if ! wasAssertGenerated; then
     fail '_FAIL_ failed to produce an ASSERT message'
     showTestOutput
   fi
 
-  ( ${_FAIL_} '"some msg"' >"${stdoutF}" 2>"${stderrF}" )
+  ( ${_FAIL_} '"some msg"' > "${stdoutF}" 2> "${stderrF}")
   if ! wasAssertGenerated; then
     fail '_FAIL_ (with a message) failed to produce an ASSERT message'
     showTestOutput
@@ -167,13 +167,13 @@ testFail() {
 testFailNotEquals() {
   isLinenoWorking || startSkipping
 
-  ( ${_FAIL_NOT_EQUALS_} 'x' 'y' >"${stdoutF}" 2>"${stderrF}" )
+  ( ${_FAIL_NOT_EQUALS_} 'x' 'y' > "${stdoutF}" 2> "${stderrF}")
   if ! wasAssertGenerated; then
     fail '_FAIL_NOT_EQUALS_ failed to produce an ASSERT message'
     showTestOutput
   fi
 
-  ( ${_FAIL_NOT_EQUALS_} '"some msg"' 'x' 'y' >"${stdoutF}" 2>"${stderrF}" )
+  ( ${_FAIL_NOT_EQUALS_} '"some msg"' 'x' 'y' > "${stdoutF}" 2> "${stderrF}")
   if ! wasAssertGenerated; then
     fail '_FAIL_NOT_EQUALS_ (with a message) failed to produce an ASSERT message'
     showTestOutput
@@ -183,13 +183,13 @@ testFailNotEquals() {
 testFailSame() {
   isLinenoWorking || startSkipping
 
-  ( ${_FAIL_SAME_} 'x' 'x' >"${stdoutF}" 2>"${stderrF}" )
+  ( ${_FAIL_SAME_} 'x' 'x' > "${stdoutF}" 2> "${stderrF}")
   if ! wasAssertGenerated; then
     fail '_FAIL_SAME_ failed to produce an ASSERT message'
     showTestOutput
   fi
 
-  ( ${_FAIL_SAME_} '"some msg"' 'x' 'x' >"${stdoutF}" 2>"${stderrF}" )
+  ( ${_FAIL_SAME_} '"some msg"' 'x' 'x' > "${stdoutF}" 2> "${stderrF}")
   if ! wasAssertGenerated; then
     fail '_FAIL_SAME_ (with a message) failed to produce an ASSERT message'
     showTestOutput
@@ -199,13 +199,13 @@ testFailSame() {
 testFailNotSame() {
   isLinenoWorking || startSkipping
 
-  ( ${_FAIL_NOT_SAME_} 'x' 'y' >"${stdoutF}" 2>"${stderrF}" )
+  ( ${_FAIL_NOT_SAME_} 'x' 'y' > "${stdoutF}" 2> "${stderrF}")
   if ! wasAssertGenerated; then
     fail '_FAIL_NOT_SAME_ failed to produce an ASSERT message'
     showTestOutput
   fi
 
-  ( ${_FAIL_NOT_SAME_} '"some msg"' 'x' 'y' >"${stdoutF}" 2>"${stderrF}" )
+  ( ${_FAIL_NOT_SAME_} '"some msg"' 'x' 'y' > "${stdoutF}" 2> "${stderrF}")
   if ! wasAssertGenerated; then
     fail '_FAIL_NOT_SAME_ (with a message) failed to produce an ASSERT message'
     showTestOutput
@@ -236,10 +236,11 @@ isLinenoWorking() {
 showTestOutput() { th_showOutput "${SHUNIT_FALSE}" "${stdoutF}" "${stderrF}"; }
 
 # wasAssertGenerated returns true if an ASSERT was generated to STDOUT.
-wasAssertGenerated() { grep '^ASSERT:\[[0-9]*\] *' "${stdoutF}" >/dev/null; }
+wasAssertGenerated() { grep '^ASSERT:\[[0-9]*\] *' "${stdoutF}" > /dev/null; }
 
 # Disable output coloring as it breaks the tests.
-SHUNIT_COLOR='none'; export SHUNIT_COLOR
+SHUNIT_COLOR='none'
+export                      SHUNIT_COLOR
 
 # Load and run shunit3.
 # shellcheck disable=SC2034
