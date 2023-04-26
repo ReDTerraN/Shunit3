@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# shUnit2 example for mocking files.
+# shunit3 example for mocking files.
 #
 # This example demonstrates two different mechanisms for mocking files on the
 # system. The first method is preferred for testing specific aspects of a file,

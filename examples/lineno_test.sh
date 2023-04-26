@@ -11,5 +11,5 @@ testLineNo() {
   assertEquals 'not equal' 1 2
 }
 
-# Load and run shUnit2.
-. ../shunit2
+# Load and run shunit3.
+. ../shunit3
