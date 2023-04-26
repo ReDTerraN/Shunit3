@@ -1,7 +1,7 @@
 #!/bin/sh
 # vim:et:ft=sh:sts=2:sw=2
 #
-# shunit2 unit test for running subset(s) of tests based upon command line args.
+# shunit3 unit test for running subset(s) of tests based upon command line args.
 #
 # Copyright 2008-2021 Kate Ward. All Rights Reserved.
 # Released under the Apache 2.0 license.
@@ -15,7 +15,7 @@
 #   shellcheck disable=SC1090,SC1091
 
 # Load test helpers.
-. ./shunit2_test_helpers
+. ./shunit3_test_helpers
 
 CUSTOM_TEST_RAN=''
 
@@ -58,7 +58,7 @@ if [ "$#" -le 1 ]; then
   set -- '--' 'custom_test' 'testCustomTestRan'
 fi
 
-# Load and run shunit2.
+# Load and run shunit3.
 # shellcheck disable=SC2034
 [ -n "${ZSH_VERSION:-}" ] && SHUNIT_PARENT=$0
 . "${TH_SHUNIT}"

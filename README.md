@@ -1,12 +1,10 @@
-# shUnit2
+# shUnit3
 
-shUnit2 is a [xUnit](http://en.wikipedia.org/wiki/XUnit) unit test framework for
+shunit3 is a [xUnit](http://en.wikipedia.org/wiki/XUnit) unit test framework for
 Bourne based shell scripts, and it is designed to work in a similar manner to
 [JUnit](http://www.junit.org), [PyUnit](http://pyunit.sourceforge.net), etc.. If
-you have ever had the desire to write a unit test for a shell script, shUnit2
+you have ever had the desire to write a unit test for a shell script, shunit3
 can do the job.
-
-[![Travis CI](https://api.travis-ci.com/kward/shunit2.svg)](https://app.travis-ci.com/github/kward/shunit2)
 
 ## Table of Contents
 
@@ -35,7 +33,7 @@ can do the job.
 
 ## <a name="introduction"></a> Introduction
 
-shUnit2 was originally developed to provide a consistent testing solution for
+shunit3 was originally developed to provide a consistent testing solution for
 [log4sh][log4sh], a shell based logging framework similar to
 [log4j](http://logging.apache.org). During the development of that product, a
 repeated problem of having things work just fine under one shell (`/bin/bash` on
@@ -46,17 +44,21 @@ write a proper unit test framework after multiple brown-bag releases were made.
 _Research was done to look for an existing product that met the testing
 requirements, but no adequate product was found._
 
+shUnit3 is simple, as former owner of shunit3 is no longer present no longer supports the project, this is a continuation of shunit3. My hope is to continue develop this and create a robust shell unit testing framework.
+
 ### Tested software
 
 **Tested Operating Systems** (varies over time)
 
 OS                                  | Support   | Verified
 ----------------------------------- | --------- | --------
-Ubuntu Linux (14.04.05 LTS)         | Travis CI | continuous
-macOS High Sierra (10.13.3)         | Travis CI | continuous
+Ubuntu Linux (20.04 LTS)            | user      | continuous
+macOS High Sierra (10.13.3)         | user      | continuous
 FreeBSD                             | user      | unknown
 Solaris 8, 9, 10 (inc. OpenSolaris) | user      | unknown
 Cygwin                              | user      | unknown
+
+If it works on other platforms, please add it here.
 
 **Tested Shells**
 
@@ -72,25 +74,22 @@ See the appropriate Release Notes for this release
 
 ### <a name="credits-contributors"></a> Credits / Contributors
 
-A list of contributors to shUnit2 can be found in `doc/contributors.md`. Many
+A list of contributors to shunit3/shUnit3 can be found in `doc/contributors.md`. Many
 thanks go out to all those who have contributed to make this a better tool.
 
-shUnit2 is the original product of many hours of work by Kate Ward, the primary
+shunit3 is the original product of many hours of work by Kate Ward, the primary
 author of the code. For related software, check out https://github.com/kward.
 
 ### <a name="feedback"></a> Feedback
 
 Feedback is most certainly welcome for this document. Send your questions,
-comments, and criticisms via the
-[shunit2-users](https://groups.google.com/a/forestent.com/forum/#!forum/shunit2-users/new)
-forum (created 2018-12-09), or file an issue via
-https://github.com/kward/shunit2/issues.
+comments https://github.com/ReDTerraN/Shunit3/issues
 
 ---
 
 ## <a name="quickstart"></a> Quickstart
 
-This section will give a very quick start to running unit tests with shUnit2.
+This section will give a very quick start to running unit tests with shunit3.
 More information is located in later sections.
 
 Here is a quick sample script to show how easy it is to write a unit test in
@@ -105,8 +104,8 @@ testEquality() {
   assertEquals 1 1
 }
 
-# Load shUnit2.
-. ../shunit2
+# Load shunit3.
+. ../shunit3
 ```
 
 Running the unit test should give results similar to the following.
@@ -122,32 +121,32 @@ OK
 ```
 
 W00t! You've just run your first successful unit test. So, what just happened?
-Quite a bit really, and it all happened simply by sourcing the `shunit2`
+Quite a bit really, and it all happened simply by sourcing the `shunit3`
 library. The basic functionality for the script above goes like this:
 
-* When shUnit2 is sourced, it will walk through any functions defined whose name
+* When shunit3 is sourced, it will walk through any functions defined whose name
   starts with the string `test`, and add those to an internal list of tests to
-  execute. Once a list of test functions to be run has been determined, shunit2
+  execute. Once a list of test functions to be run has been determined, shunit3
   will go to work.
-* Before any tests are executed, shUnit2 again looks for a function, this time
+* Before any tests are executed, shunit3 again looks for a function, this time
   one named `oneTimeSetUp()`. If it exists, it will be run. This function is
   normally used to setup the environment for all tests to be run. Things like
   creating directories for output or setting environment variables are good to
   place here. Just so you know, you can also declare a corresponding function
   named `oneTimeTearDown()` function that does the same thing, but once all the
   tests have been completed. It is good for removing temporary directories, etc.
-* shUnit2 is now ready to run tests. Before doing so though, it again looks for
+* shunit3 is now ready to run tests. Before doing so though, it again looks for
   another function that might be declared, one named `setUp()`. If the function
   exists, it will be run before each test. It is good for resetting the
   environment so that each test starts with a clean slate. **At this stage, the
   first test is finally run.** The success of the test is recorded for a report
-  that will be generated later. After the test is run, shUnit2 looks for a final
+  that will be generated later. After the test is run, shunit3 looks for a final
   function that might be declared, one named `tearDown()`. If it exists, it will
   be run after each test. It is a good place for cleaning up after each test,
   maybe doing things like removing files that were created, or removing
   directories. This set of steps, `setUp() > test() > tearDown()`, is repeated
   for all of the available tests.
-* Once all the work is done, shUnit2 will generate the nice report you saw
+* Once all the work is done, shunit3 will generate the nice report you saw
   above. A summary of all the successes and failures will be given so that you
   know how well your code is doing.
 
@@ -167,8 +166,8 @@ testPartyLikeItIs1999() {
   assertEquals "It's not 1999 :-(" '1999' "${year}"
 }
 
-# Load shUnit2.
-. ../shunit2
+# Load shunit3.
+. ../shunit3
 ```
 
 So, what did you get? I guess it told you that this isn't 1999. Bummer, eh?
@@ -176,21 +175,21 @@ Hopefully, you noticed a couple of things that were different about the second
 test. First, we added an optional message that the user will see if the assert
 fails. Second, we did comparisons of strings instead of integers as in the first
 test. It doesn't matter whether you are testing for equality of strings or
-integers. Both work equally well with shUnit2.
+integers. Both work equally well with shunit3.
 
 Hopefully, this is enough to get you started with unit testing. If you want a
 ton more examples, take a look at the tests provided with [log4sh][log4sh] or
 [shFlags][shflags]. Both provide excellent examples of more advanced usage.
-shUnit2 was after all written to meet the unit testing need that
+shunit3 was after all written to meet the unit testing need that
 [log4sh][log4sh] had.
 
-If you are using distribution packaged shUnit2 which is accessible from
-`/usr/bin/shunit2` such as Debian, you can load shUnit2 without specifying its
+If you are using distribution packaged shunit3 which is accessible from
+`/usr/bin/shunit3` such as Debian, you can load shunit3 without specifying its
 path.  So the last 2 lines in the above can be replaced by:
 
 ```sh
-# Load shUnit2.
-. shunit2
+# Load shunit3.
+. shunit3
 ```
 
 ---
@@ -387,7 +386,7 @@ This function returns the current state of skipping. It can be compared against
 
 ### <a name="suites"></a> Suites
 
-The default behavior of shUnit2 is that all tests will be found dynamically. If
+The default behavior of shunit3 is that all tests will be found dynamically. If
 you have a specific set of tests you want to run, or you don't want to use the
 standard naming scheme of prefixing your tests with `test`, these functions are
 for you. Most users will never use them though.
@@ -396,8 +395,8 @@ for you. Most users will never use them though.
 
 This function can be optionally overridden by the user in their test suite.
 
-If this function exists, it will be called when `shunit2` is sourced. If it does
-not exist, shUnit2 will search the parent script for all functions beginning
+If this function exists, it will be called when `shunit3` is sourced. If it does
+not exist, shunit3 will search the parent script for all functions beginning
 with the word `test`, and they will be added dynamically to the test suite.
 
     suite_addTest name
@@ -412,7 +411,7 @@ within the `suite()` function.
 
 ### <a name="some-constants-you-can-use"></a> Some constants you can use
 
-There are several constants provided by shUnit2 as variables that might be of
+There are several constants provided by shunit3 as variables that might be of
 use to you.
 
 *Predefined*
@@ -422,8 +421,8 @@ use to you.
 | SHUNIT\_TRUE    | Standard shell `true` value (the integer value 0). |
 | SHUNIT\_FALSE   | Standard shell `false` value (the integer value 1). |
 | SHUNIT\_ERROR   | The integer value 2. |
-| SHUNIT\_TMPDIR  | Path to temporary directory that will be automatically cleaned up upon exit of shUnit2. |
-| SHUNIT\_VERSION | The version of shUnit2 you are running. |
+| SHUNIT\_TMPDIR  | Path to temporary directory that will be automatically cleaned up upon exit of shunit3. |
+| SHUNIT\_VERSION | The version of shunit3 you are running. |
 
 *User defined*
 
@@ -468,8 +467,8 @@ testLineNo() {
   assertEquals 'not equal' 1 2
 }
 
-# Load shUnit2.
-. ../shunit2
+# Load shunit3.
+. ../shunit3
 ```
 
 Notes:
@@ -546,8 +545,8 @@ oneTimeSetUp() {
   . ./math.inc
 }
 
-# Load and run shUnit2.
-. ../shunit2
+# Load and run shunit3.
+. ../shunit3
 ```
 
 Running the above test under the __bash__ shell will result in the following
@@ -593,14 +592,14 @@ test-script.sh -- testOne testTwo otherFunction
 or
 
 ```console
-shunit2 test-script.sh testOne testTwo otherFunction
+shunit3 test-script.sh testOne testTwo otherFunction
 ```
 
-In either case, three functions will be run as tests, `testOne`, `testTwo`, and `otherFunction`.  Note that the function `otherFunction` would not normally be run by `shunit2` as part of the implicit collection of tests as it's function name does not match the test function name pattern `test*`.
+In either case, three functions will be run as tests, `testOne`, `testTwo`, and `otherFunction`.  Note that the function `otherFunction` would not normally be run by `shunit3` as part of the implicit collection of tests as it's function name does not match the test function name pattern `test*`.
 
-If a specified test function does not exist, `shunit2` will still attempt to run that function and thereby cause a failure which `shunit2` will catch and mark as a failed test.  All other tests will run normally.
+If a specified test function does not exist, `shunit3` will still attempt to run that function and thereby cause a failure which `shunit3` will catch and mark as a failed test.  All other tests will run normally.
 
-The specification of tests does not affect how `shunit2` looks for and executes the setup and tear down functions, which will still run as expected.
+The specification of tests does not affect how `shunit3` looks for and executes the setup and tear down functions, which will still run as expected.
 
 ---
 
@@ -608,9 +607,9 @@ The specification of tests does not affect how `shunit2` looks for and executes 
 
 ### <a name="getting-help"></a> Getting Help
 
-For help, please send requests to either the shunit2-users@forestent.com mailing
+For help, please send requests to either the shunit3-users@forestent.com mailing
 list (archives available on the web at
-https://groups.google.com/a/forestent.com/forum/#!forum/shunit2-users) or
+https://groups.google.com/a/forestent.com/forum/#!forum/shunit3-users) or
 directly to Kate Ward <kate dot ward at forestent dot com>.
 
 ### <a name="zsh"></a> Zsh
@@ -619,7 +618,7 @@ For compatibility with Zsh, there is one requirement that must be met -- the
 `shwordsplit` option must be set. There are three ways to accomplish this.
 
 1. In the unit-test script, add the following shell code snippet before sourcing
-   the `shunit2` library.
+   the `shunit3` library.
 
    ```sh
    setopt shwordsplit

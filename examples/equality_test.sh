@@ -5,5 +5,5 @@ testEquality() {
   assertEquals 1 1
 }
 
-# Load and run shUnit2.
-. ../shunit2
+# Load and run shUnit3.
+. ../shunit3

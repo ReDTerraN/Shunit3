@@ -1,13 +1,13 @@
 #! /bin/sh
 # vim:et:ft=sh:sts=2:sw=2
 #
-# shunit2 unit test for macros.
+# shunit3 unit test for macros.
 #
 # Copyright 2008-2021 Kate Ward. All Rights Reserved.
 # Released under the Apache 2.0 license.
 # http://www.apache.org/licenses/LICENSE-2.0
 #
-# Author: kate.ward@forestent.com (Kate Ward)
+# Original author: kate.ward@forestent.com (Kate Ward)
 # https://github.com/kward/shunit2
 #
 # Disable source following.
@@ -18,7 +18,7 @@ stdoutF="${TMPDIR:-/tmp}/STDOUT"
 stderrF="${TMPDIR:-/tmp}/STDERR"
 
 # Load test helpers.
-. ./shunit2_test_helpers
+. ./shunit3_test_helpers
 
 testAssertEquals() {
   isLinenoWorking || startSkipping
@@ -241,7 +241,7 @@ wasAssertGenerated() { grep '^ASSERT:\[[0-9]*\] *' "${stdoutF}" >/dev/null; }
 # Disable output coloring as it breaks the tests.
 SHUNIT_COLOR='none'; export SHUNIT_COLOR
 
-# Load and run shUnit2.
+# Load and run shunit3.
 # shellcheck disable=SC2034
 [ -n "${ZSH_VERSION:-}" ] && SHUNIT_PARENT="$0"
 . "${TH_SHUNIT}"

@@ -5,7 +5,7 @@
 # Released under the Apache 2.0 license.
 # http://www.apache.org/licenses/LICENSE-2.0
 #
-# shUnit2 -- Unit testing framework for Unix shell scripts.
+# shUnit3 -- Unit testing framework for Unix shell scripts.
 # https://github.com/kward/shunit2
 #
 # Author: kate.ward@forestent.com (Kate Ward)
@@ -74,6 +74,6 @@ tearDown() {
   rm -fr "${testDir}"
 }
 
-# Load and run shUnit2.
+# Load and run shUnit3.
 [ -n "${ZSH_VERSION:-}" ] && SHUNIT_PARENT=$0
-. ../shunit2
+. ../shunit3

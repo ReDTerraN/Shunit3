@@ -38,8 +38,8 @@ matrix:
     ### Run the source through ShellCheck (http://www.shellcheck.net).
     - os: linux
       script:
-        - shellcheck shunit2 *_test.sh
-        - shellcheck -s sh shunit2_test_helpers
+        - shellcheck shunit3 *_test.sh
+        - shellcheck -s sh shunit3_test_helpers
 
 branches:
   only:

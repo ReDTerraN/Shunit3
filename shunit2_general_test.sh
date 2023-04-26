@@ -1,7 +1,7 @@
 #! /bin/sh
 # vim:et:ft=sh:sts=2:sw=2
 #
-# shUnit2 unit tests for general commands.
+# shunit3 unit tests for general commands.
 #
 # Copyright 2008-2021 Kate Ward. All Rights Reserved.
 # Released under the Apache 2.0 license.
@@ -18,7 +18,7 @@ stdoutF="${TMPDIR:-/tmp}/STDOUT"
 stderrF="${TMPDIR:-/tmp}/STDERR"
 
 # Load test helpers.
-. ./shunit2_test_helpers
+. ./shunit3_test_helpers
 
 testSkipping() {
   # We shouldn't be skipping to start.
@@ -93,7 +93,7 @@ oneTimeSetUp() {
   th_oneTimeSetUp
 }
 
-# Load and run shUnit2.
+# Load and run shunit3.
 # shellcheck disable=SC2034
 [ -n "${ZSH_VERSION:-}" ] && SHUNIT_PARENT=$0
 . "${TH_SHUNIT}"

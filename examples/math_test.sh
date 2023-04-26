@@ -21,5 +21,5 @@ oneTimeSetUp() {
   . ./math.inc
 }
 
-# Load and run shUnit2.
-. ../shunit2
+# Load and run shUnit3.
+. ../shunit3

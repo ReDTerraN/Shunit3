@@ -12,5 +12,5 @@ testPartyLikeItIs1999() {
       '1999' "${year}"
 }
 
-# Load and run shUnit2.
-. ../shunit2
+# Load and run shunit3.
+. ../shunit3

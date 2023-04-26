@@ -54,6 +54,6 @@ setUp() {
   cp /dev/null "${stderrF}"
 }
 
-# Load and run shUnit2.
+# Load and run shunit3.
 # shellcheck disable=SC1091
-. ../shunit2
+. ../shunit3

@@ -3,7 +3,7 @@
 #
 # This test demonstrates the use of suites.
 #
-# suite is a special function called by shUnit2 to setup a suite of tests. It
+# suite is a special function called by shunit3 to setup a suite of tests. It
 # enables a developer to call a set of functions that contain tests without
 # needing to rename the functions to start with "test".
 #
@@ -27,5 +27,5 @@ suite_test_two() {
   assertNotEquals 1 2
 }
 
-# Load and run shUnit2.
-. ../shunit2
+# Load and run shunit3.
+. ../shunit3

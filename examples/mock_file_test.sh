@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# shUnit2 example for mocking files.
+# shunit3 example for mocking files.
 
 MOCK_PASSWD=''  # This will be overridden in oneTimeSetUp().
 
@@ -16,7 +16,7 @@ test_root_uid_from_derived_filename() {
 
 oneTimeSetUp() {
   # Provide a mock passwd file for testing. This will be cleaned up
-  # automatically by shUnit2.
+  # automatically by shunit3.
   MOCK_PASSWD="${SHUNIT_TMPDIR}/passwd"
   cat <<EOF >"${MOCK_PASSWD}"
 nobody:*:-2:-2:Unprivileged User:/var/empty:/usr/bin/false
@@ -28,6 +28,6 @@ EOF
   . './mock_file.sh'
 }
 
-# Load and run shUnit2.
+# Load and run shunit3.
 [ -n "${ZSH_VERSION:-}" ] && SHUNIT_PARENT=$0
-. ../shunit2
+. ../shunit3
