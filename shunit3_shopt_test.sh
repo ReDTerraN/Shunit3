@@ -22,7 +22,7 @@ SHOPT_CMD='shopt'
 testNullglob() {
   isShoptWorking || startSkipping
 
-  nullglob=$(${SHOPT_CMD} nullglob |cut -f2)
+  nullglob=$(${SHOPT_CMD} nullglob | cut -f2)
 
   # Test without nullglob.
   ${SHOPT_CMD} -u nullglob
@@ -54,7 +54,7 @@ oneTimeSetUp() {
 # NOTE: `shopt` is not defined as part of the POSIX standard.
 isShoptWorking() {
   # shellcheck disable=SC2039,SC3044
-  ( shopt >/dev/null 2>&1 );
+  ( shopt > /dev/null 2>&1)
 }
 
 mock_shopt() {

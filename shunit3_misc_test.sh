@@ -26,7 +26,7 @@ stderrF="${TMPDIR:-/tmp}/STDERR"
 # incorrectly interpret the embedded functions as real functions.
 testUnboundVariable() {
   unittestF="${SHUNIT_TMPDIR}/unittest"
-  sed 's/^#//' >"${unittestF}" <<EOF
+  sed 's/^#//' > "${unittestF}" << EOF
 ## Treat unset variables as an error when performing parameter expansion.
 #set -u
 #
@@ -39,16 +39,16 @@ testUnboundVariable() {
 #SHUNIT_COLOR='none'
 #. ${TH_SHUNIT}
 EOF
-  if ( exec "${SHELL:-sh}" "${unittestF}" >"${stdoutF}" 2>"${stderrF}" ); then
+  if ( exec "${SHELL:-sh}" "${unittestF}" > "${stdoutF}" 2> "${stderrF}"); then
     fail 'expected a non-zero exit value'
   fi
-  if ! grep '^ASSERT:unknown failure' "${stdoutF}" >/dev/null; then
+  if ! grep '^ASSERT:unknown failure' "${stdoutF}" > /dev/null; then
     fail 'assert message was not generated'
   fi
-  if ! grep '^Ran [0-9]* test' "${stdoutF}" >/dev/null; then
+  if ! grep '^Ran [0-9]* test' "${stdoutF}" > /dev/null; then
     fail 'test count message was not generated'
   fi
-  if ! grep '^FAILED' "${stdoutF}" >/dev/null; then
+  if ! grep '^FAILED' "${stdoutF}" > /dev/null; then
     fail 'failure message was not generated'
   fi
 }
@@ -60,8 +60,8 @@ testIssue7() {
   _shunit_configureColor 'none'
 
   # Ignoring errors with `|| :` as we only care about the message in this test.
-  ( assertEquals 'Some message.' 1 2 >"${stdoutF}" 2>"${stderrF}" ) || :
-  diff "${stdoutF}" - >/dev/null <<EOF
+  ( assertEquals 'Some message.' 1 2 > "${stdoutF}" 2> "${stderrF}") || :
+  diff "${stdoutF}" - > /dev/null << EOF
 ASSERT:Some message. expected:<1> but was:<2>
 EOF
   rtrn=$?
@@ -73,15 +73,15 @@ EOF
 # https://github.com/kward/shunit2/issues/29
 testIssue29() {
   unittestF="${SHUNIT_TMPDIR}/unittest"
-  sed 's/^#//' >"${unittestF}" <<EOF
+  sed 's/^#//' > "${unittestF}" << EOF
 ## Support test prefixes.
 #test_assert() { assertTrue ${SHUNIT_TRUE}; }
 #SHUNIT_COLOR='none'
 #SHUNIT_TEST_PREFIX='--- '
 #. ${TH_SHUNIT}
 EOF
-  ( exec "${SHELL:-sh}" "${unittestF}" >"${stdoutF}" 2>"${stderrF}" )
-  grep '^--- test_assert' "${stdoutF}" >/dev/null
+  ( exec "${SHELL:-sh}" "${unittestF}" > "${stdoutF}" 2> "${stderrF}")
+  grep '^--- test_assert' "${stdoutF}" > /dev/null
   rtrn=$?
   assertEquals "${SHUNIT_TRUE}" "${rtrn}"
   [ "${rtrn}" -eq "${SHUNIT_TRUE}" ] || cat "${stdoutF}" >&2
@@ -112,15 +112,15 @@ testIssue69() {
   # Note: assertNull not tested as zero arguments == null, which is valid.
   for t in Equals NotEquals NotNull Same NotSame True False; do
     assert="assert${t}"
-    sed 's/^#//' >"${unittestF}" <<EOF
+    sed 's/^#//' > "${unittestF}" << EOF
 ## Asserts with invalid argument counts should be counted as failures.
 #test_assert() { ${assert}; }
 #SHUNIT_COLOR='none'
 #. ${TH_SHUNIT}
 EOF
     # Ignoring errors with `|| :` as we only care about `FAILED` in the output.
-    ( exec "${SHELL:-sh}" "${unittestF}" >"${stdoutF}" 2>"${stderrF}" ) || :
-    grep '^FAILED' "${stdoutF}" >/dev/null
+    ( exec "${SHELL:-sh}" "${unittestF}" > "${stdoutF}" 2> "${stderrF}") || :
+    grep '^FAILED' "${stdoutF}" > /dev/null
     assertTrue "failure message for ${assert} was not generated" $?
   done
 }
@@ -129,7 +129,7 @@ EOF
 testIssue77() {
   unittestF="${SHUNIT_TMPDIR}/unittest"
   for func in oneTimeSetUp setUp tearDown oneTimeTearDown; do
-    sed 's/^#//' >"${unittestF}" <<EOF
+    sed 's/^#//' > "${unittestF}" << EOF
 ## Environment failure should end test.
 #${func}() { return ${SHUNIT_FALSE}; }
 #test_true() { assertTrue ${SHUNIT_TRUE}; }
@@ -137,8 +137,8 @@ testIssue77() {
 #. ${TH_SHUNIT}
 EOF
     # Ignoring errors with `|| :` as we only care about `FAILED` in the output.
-    ( exec "${SHELL:-sh}" "${unittestF}" ) >"${stdoutF}" 2>"${stderrF}" || :
-    grep '^FAILED' "${stdoutF}" >/dev/null
+    ( exec "${SHELL:-sh}" "${unittestF}" ) > "${stdoutF}" 2> "${stderrF}" || :
+    grep '^FAILED' "${stdoutF}" > /dev/null
     assertTrue "failure of ${func}() did not end test" $?
   done
 }
@@ -147,7 +147,7 @@ EOF
 # https://github.com/kward/shunit2/issues/84
 testIssue84() {
   unittestF="${SHUNIT_TMPDIR}/unittest"
-  sed 's/^#//' >"${unittestF}" <<\EOF
+  sed 's/^#//' > "${unittestF}" << \EOF
 ## Function with syntax error.
 #syntax_error() { ${!#3442} -334 a$@2[1]; }
 #test_syntax_error() {
@@ -159,8 +159,8 @@ testIssue84() {
 #. ${TH_SHUNIT}
 EOF
   # Ignoring errors with `|| :` as we only care about `FAILED` in the output.
-  ( exec "${SHELL:-sh}" "${unittestF}" >"${stdoutF}" 2>"${stderrF}" ) || :
-  if ! grep '^FAILED' "${stdoutF}" >/dev/null; then
+  ( exec "${SHELL:-sh}" "${unittestF}" > "${stdoutF}" 2> "${stderrF}") || :
+  if ! grep '^FAILED' "${stdoutF}" > /dev/null; then
     fail 'failure message was not generated'
   fi
 }
@@ -179,9 +179,9 @@ testIssue123() {
 }
 
 testPrepForSourcing() {
-  assertEquals '/abc' "`_shunit_prepForSourcing '/abc'`"
-  assertEquals './abc' "`_shunit_prepForSourcing './abc'`"
-  assertEquals './abc' "`_shunit_prepForSourcing 'abc'`"
+  assertEquals '/abc' "$(_shunit_prepForSourcing '/abc')"
+  assertEquals './abc' "$(_shunit_prepForSourcing './abc')"
+  assertEquals './abc' "$(_shunit_prepForSourcing 'abc')"
 }
 
 # Test the various ways of declaring functions.
@@ -190,7 +190,7 @@ testPrepForSourcing() {
 # treated as real functions by shUnit2.
 testExtractTestFunctions() {
   f="${SHUNIT_TMPDIR}/extract_test_functions"
-  sed 's/^#//' <<EOF >"${f}"
+  sed 's/^#//' << EOF > "${f}"
 ## Function on a single line.
 #testABC() { echo 'ABC'; }
 ## Multi-line function with '{' on next line.
@@ -233,17 +233,17 @@ testExtractTestFunctions() {
 #function function test_test_test() { echo 'lorem'; }
 EOF
 
-  actual=`_shunit_extractTestFunctions "${f}"`
+  actual=$(_shunit_extractTestFunctions "${f}")
   assertEquals 'testABC test_def testG3 test4 test5 test6 test7 test8 test-9' "${actual}"
 }
 
 testColors() {
   while read -r cmd colors desc; do
     SHUNIT_CMD_TPUT=${cmd}
-    want=${colors} got=`_shunit_colors`
+    want=${colors} got=$(_shunit_colors)
     assertEquals "${desc}: incorrect number of colors;" \
-        "${got}" "${want}"
-  done <<'EOF'
+      "${got}"   "${want}"
+  done << 'EOF'
 missing_tput 16  missing tput command
 mock_tput    256 mock tput command
 EOF
@@ -251,7 +251,7 @@ EOF
 
 testColorsWitoutTERM() {
   SHUNIT_CMD_TPUT='mock_tput'
-  got=`TERM='' _shunit_colors`
+  got=$(TERM='' _shunit_colors)
   want=16
   assertEquals "${got}" "${want}"
 }

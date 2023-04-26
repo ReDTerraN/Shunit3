@@ -18,7 +18,7 @@ oneTimeSetUp() {
   # Provide a mock passwd file for testing. This will be cleaned up
   # automatically by shunit3.
   MOCK_PASSWD="${SHUNIT_TMPDIR}/passwd"
-  cat <<EOF >"${MOCK_PASSWD}"
+  cat << EOF > "${MOCK_PASSWD}"
 nobody:*:-2:-2:Unprivileged User:/var/empty:/usr/bin/false
 root:*:0:0:System Administrator:/var/root:/bin/sh
 daemon:*:1:1:System Services:/var/root:/usr/bin/false

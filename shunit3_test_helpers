@@ -29,7 +29,8 @@ set -u
 #
 
 # Path to shunit3 library. Can be overridden by setting SHUNIT_INC.
-TH_SHUNIT=${SHUNIT_INC:-./shunit3}; export TH_SHUNIT
+TH_SHUNIT=${SHUNIT_INC:-./shunit3}
+                                    export TH_SHUNIT
 
 # Configure debugging. Set the DEBUG environment variable to any
 # non-empty value to enable debug output, or TRACE to enable trace
@@ -82,10 +83,10 @@ th_generateRandom() {
       # shellcheck disable=SC2039
       tfgr_random=${RANDOM}${RANDOM}${RANDOM}$$
     elif [ -r '/dev/urandom' ]; then
-      tfgr_random=`od -vAn -N4 -tu4 </dev/urandom |sed 's/^[^0-9]*//'`
+      tfgr_random=$(od -vAn -N4 -tu4 < /dev/urandom | sed 's/^[^0-9]*//')
     else
-      tfgr_date=`date '+%H%M%S'`
-      tfgr_random=`expr "${tfgr_date}" \* $$`
+      tfgr_date=$(date '+%H%M%S')
+      tfgr_random=$(expr "${tfgr_date}" \* $$)
       unset tfgr_date
     fi
     [ "${tfgr_random}" = "${th_RANDOM}" ] && sleep 1
@@ -99,7 +100,7 @@ th_generateRandom() {
 # data section is defined by a [header], one or more lines of data, and then a
 # blank line.
 th_getDataSect() {
-  th_sgrep "\\[$1\\]" "$2" |sed '1d'
+  th_sgrep "\\[$1\\]" "$2" | sed '1d'
 }
 
 # This function greps a section from a file. a section is defined as a group of
@@ -109,7 +110,7 @@ th_sgrep() {
   shift
 
   # shellcheck disable=SC2068
-  sed -e '/./{H;$!d;}' -e "x;/${th_pattern_}/"'!d;' $@ |sed '1d'
+  sed -e '/./{H;$!d;}' -e "x;/${th_pattern_}/"'!d;' $@ | sed '1d'
 
   unset th_pattern_
 }
@@ -148,8 +149,7 @@ th_assertTrueWithNoOutput() {
 #  th_rtrn_: integer: the return value of the subtest performed
 #  th_stdout_: string: filename where stdout was redirected to
 #  th_stderr_: string: filename where stderr was redirected to
-th_assertFalseWithOutput()
-{
+th_assertFalseWithOutput() {
   th_test_=$1
   th_rtrn_=$2
   th_stdout_=$3
@@ -197,7 +197,7 @@ th_assertFalseWithError() {
 th_clearReturn() { cp /dev/null "${returnF}"; }
 th_queryReturn() {
   if [ -s "${returnF}" ]; then
-    th_return=`cat "${returnF}"`
+    th_return=$(cat "${returnF}")
   else
     th_return=${SHUNIT_ERROR}
   fi

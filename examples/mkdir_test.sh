@@ -17,7 +17,7 @@
 # techniques could be used for any existing shell script.
 
 testMissingDirectoryCreation() {
-  ${mkdirCmd} "${testDir}" >${stdoutF} 2>${stderrF}
+  ${mkdirCmd} "${testDir}" > ${stdoutF} 2> ${stderrF}
   rtrn=$?
   th_assertTrueWithNoOutput ${rtrn} "${stdoutF}" "${stderrF}"
 
@@ -29,11 +29,11 @@ testExistingDirectoryCreationFails() {
   ${mkdirCmd} "${testDir}"
 
   # Test for expected failure while trying to create directory that exists.
-  ${mkdirCmd} "${testDir}" >${stdoutF} 2>${stderrF}
+  ${mkdirCmd} "${testDir}" > ${stdoutF} 2> ${stderrF}
   rtrn=$?
   assertFalse 'expecting return code of 1 (false)' ${rtrn}
-  assertNull 'unexpected output to stdout' "`cat ${stdoutF}`"
-  assertNotNull 'expected error message to stderr' "`cat ${stderrF}`"
+  assertNull 'unexpected output to stdout' "$(cat ${stdoutF})"
+  assertNotNull 'expected error message to stderr' "$(cat ${stderrF})"
 
   assertTrue 'directory missing' "[ -d '${testDir}' ]"
 }
@@ -41,7 +41,7 @@ testExistingDirectoryCreationFails() {
 testRecursiveDirectoryCreation() {
   testDir2="${testDir}/test2"
 
-  ${mkdirCmd} -p "${testDir2}" >${stdoutF} 2>${stderrF}
+  ${mkdirCmd} -p "${testDir2}" > ${stdoutF} 2> ${stderrF}
   rtrn=$?
   th_assertTrueWithNoOutput ${rtrn} "${stdoutF}" "${stderrF}"
 
