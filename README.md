@@ -1,6 +1,7 @@
 # shUnit3
 
-shunit3 is a [xUnit](http://en.wikipedia.org/wiki/XUnit) unit test framework for
+
+shunit3 is a continuation of shunit2, shunit3 is a [xUnit](http://en.wikipedia.org/wiki/XUnit) unit test framework for
 Bourne based shell scripts, and it is designed to work in a similar manner to
 [JUnit](http://www.junit.org), [PyUnit](http://pyunit.sourceforge.net), etc.. If
 you have ever had the desire to write a unit test for a shell script, shunit3
