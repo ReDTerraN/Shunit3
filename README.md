@@ -1,6 +1,7 @@
 # shUnit3
 
-shunit3 is a [xUnit](http://en.wikipedia.org/wiki/XUnit) unit test framework for
+
+shunit3 is a continuation of shunit2, shunit3 is a [xUnit](http://en.wikipedia.org/wiki/XUnit) unit test framework for
 Bourne based shell scripts, and it is designed to work in a similar manner to
 [JUnit](http://www.junit.org), [PyUnit](http://pyunit.sourceforge.net), etc.. If
 you have ever had the desire to write a unit test for a shell script, shunit3
@@ -33,7 +34,7 @@ can do the job.
 
 ## <a name="introduction"></a> Introduction
 
-shunit3 was originally developed to provide a consistent testing solution for
+shunit2 was originally developed to provide a consistent testing solution for
 [log4sh][log4sh], a shell based logging framework similar to
 [log4j](http://logging.apache.org). During the development of that product, a
 repeated problem of having things work just fine under one shell (`/bin/bash` on
@@ -44,21 +45,7 @@ write a proper unit test framework after multiple brown-bag releases were made.
 _Research was done to look for an existing product that met the testing
 requirements, but no adequate product was found._
 
-shUnit3 is simple, as former owner of shunit3 is no longer present no longer supports the project, this is a continuation of shunit3. My hope is to continue develop this and create a robust shell unit testing framework.
-
-### Tested software
-
-**Tested Operating Systems** (varies over time)
-
-OS                                  | Support   | Verified
------------------------------------ | --------- | --------
-Ubuntu Linux (20.04 LTS)            | user      | continuous
-macOS High Sierra (10.13.3)         | user      | continuous
-FreeBSD                             | user      | unknown
-Solaris 8, 9, 10 (inc. OpenSolaris) | user      | unknown
-Cygwin                              | user      | unknown
-
-If it works on other platforms, please add it here.
+shUnit3 is simple, as former owner of shunit3 is no longer present and no longer supports the project, this is a continuation of shunit2. My hope is to continue develop this and create a robust shell unit testing framework.
 
 **Tested Shells**
 
